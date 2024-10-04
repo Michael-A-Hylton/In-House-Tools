@@ -1,0 +1,6 @@
+CREATE TABLE "Accounts" (
+	"Account"	INTEGER NOT NULL,
+	"Password"	INTEGER NOT NULL,
+	"Admin"	INTEGER NOT NULL,
+	"Avtive"	INTEGER
+)

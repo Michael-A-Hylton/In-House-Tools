@@ -1,0 +1,275 @@
+
+<!DOCTYPE html>
+
+
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Device Setup</title>
+    <link rel="stylesheet" type="text/css" href="static\bulma.css" />
+    <style>
+
+
+        body {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+        }
+
+        .textarea{
+           color: white;
+           background-color: #1e1f22;
+           border-style: outset;
+           width: 100%;
+           border-radius: 25px;
+           outline: black solid 2px;
+           text-align: center;
+           border-color: white;
+           padding: 1%;
+        }
+
+        .button.is-link{
+
+
+          width: 90%;
+          height: 25%;
+        }
+
+        .title {
+             color: white;
+             text-align: left;
+        }
+
+
+        .input[type="text"].is-blue{
+
+           width: 95%;
+
+        }
+        .loading-input-container {
+            position: relative;
+            display: inline-block;
+        }
+        .loading-input-container .loading-spinner {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: none;
+        }
+        .loading-input-container input.loading {
+            padding-right: 40px; /* Adjust based on spinner size */
+        }
+
+.hidden {
+    display: none;
+}
+
+#loadingBar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: #f3f3f3;
+    overflow: hidden;
+    z-index: 1000;
+}
+
+#loadingBar .bar {
+    height: 100%;
+    width: 100%;
+    background: #4caf50;
+    position: absolute;
+    left: -100%;
+    animation: load 2s linear infinite;
+}
+
+@keyframes load {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+    </style>
+</head>
+<nav class="navbar" role="navigation" aria-label="main navigation">
+
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbar" class="navbar-menu">
+    <div class="navbar-start">
+      <a class="navbar-item" href="/">
+        Home
+      </a>
+
+
+
+
+    </div>
+
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <div class="buttons">
+            <a class="button is-light" href="">IT Setup</a>
+            <a class="button is-light" href="">Device Status</a>
+            <a class="button is-light" href="">IT POOL</a>
+            <a class="button is-light" href="">Project Status</a>
+            <a class="button is-light" href="/logout"> Logout </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+
+
+
+
+<body>
+    <div class="columns" style="margin-top: 1.5%;" >
+
+        <div class="column has-text-centered" style=" margin-left: 3%; margin-right: 3%; ">
+            <h1 class="title" style="margin-left: 2%;"> Device Information </h1>
+            <form class="field" method="post" id="PingComputer">
+
+                <br>
+                <input class="input is-blue" type="text" placeholder="Computer Name" name= "ComputerName" id="ComputerName"><br><br>
+                <input class="input is-blue" type="text" placeholder="Autologin Username" name="Username" id="Username" ><br><br>
+                <input class="input is-blue" type="text" placeholder="Autologin Password" name="Password" id="Password"><br><br>
+                <input class="input is-blue" type="text" placeholder="URL (as needed)" name="URL" id="URL"><br><br>
+                <div class="columns">
+                    <div class="column has-text-centered">
+                        <input class="button is-link" type="submit" value="Setup MOP" name="SetupMOP"
+                               formaction="{{ url_for ('mopSetup') }}">
+
+
+                        <br>
+                        <br>
+                        <input class="button is-link" type="submit" value="Setup Teguar" name="SetupMOP"
+                               formaction="{{ url_for ('TEGSetup') }}"> <br>
+                        <br>
+                        <input class="button is-link" type="submit" value="Setup Autologin" name="SetupAutologin"
+                               formaction="{{ url_for ('autologin') }}"><br>
+                        <br>
+                        <input class="button is-link" type="submit" value="Remove Autologin" name="RemoveAutoLogin"
+                               formaction="{{ url_for ('RemoveAutoLogin') }}" >
+                    <!-- Works but doesn't open Modal-->
+                    </div>
+                    <div class="column has-text-centered">
+                        <input class="button is-link" type="submit" value="Setup Scoreboard" name="SetupScoreboard"
+                               id = "SetupScoreboard" formaction="{{ url_for ('setupSB') }}"><br>
+
+                        <br>
+                        <input class="button is-link" type="submit" value="Add Defualt Website" name="AddWebsite"
+                               formaction="{{ url_for ('addWebsite') }}"><br>
+                        <br>
+                        <input class="button is-link" name="ButtonOutput" type="submit" value="Ultra VNC Setup"
+                               formaction="{{ url_for ('UVNCSetup') }}"><br>
+                        <br>
+                        <input class="button is-link" name="ButtonOutput" type="submit" value="Allow Windows Update (Bypass WSUS)"
+                               formaction="{{ url_for ('WSUSbypass') }}">
+                    </div>
+                </div>
+
+
+
+                <br>
+
+
+
+
+                <br>
+
+
+
+
+            </form>
+
+        </div>
+
+
+        <div class="column" style="margin-right: 3%;">
+            <h2 class="title">
+                Terminal Output
+            </h2>
+           <div class="field is-horizontal">
+               <div class="field-label is-normal">
+                   <div class="field-body">
+                       <div class="field">
+                           <div class="control">
+                               <textarea readonly class="textarea" id=COutput name=COutput rows='28' cols="30" placeholder="No Output">
+                                   {{output}}
+                               </textarea>
+                           </div>
+                           <br>
+                           <div id="loadingBar" class="hidden">
+                               <div class="bar"></div>
+                           </div>
+
+
+                       </div>
+                   </div>
+               </div>
+           </div>
+        </div>
+    </div>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', () => {
+  
+
+    // When the user scrolls the page, execute myFunction
+window.onscroll = function() {myFunction()};
+
+// Get the navbar
+var navbar = document.getElementById("navbar");
+
+// Get the offset position of the navbar
+var sticky = navbar.offsetTop;
+
+// Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
+function myFunction() {
+  if (window.pageYOffset >= sticky) {
+    navbar.classList.add("sticky")
+  } else {
+    navbar.classList.remove("sticky");
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('PingComputer');
+    const loadingBar = document.getElementById('loadingBar');
+
+    form.addEventListener('submit', function(event) {
+        // Display the loading bar
+        loadingBar.classList.remove('hidden');
+
+        // Optionally, you can add a delay before submitting the form
+        // to allow the loading bar animation to be visible
+        setTimeout(() => {
+            // Form will be submitted after the delay
+            form.submit();
+        }, 100000); // Adjust the delay as needed
+    });
+});
+
+
+
+</script>
+
+</body>
+</html>
