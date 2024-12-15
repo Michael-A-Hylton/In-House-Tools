@@ -9,17 +9,17 @@ import logging
 import os
 import waitress
 
-pingpath="C:\\DevSetupTool\\PowershellScripts\\PingTest.ps1"
-vncpath="C:\\DevSetupTool\\PowershellScripts\\UVNCTestV2.ps1"
-aioMOPpath= "C:\\DevSetupTool\\PowershellScripts\\MOPAllinoneSetup.ps1"
-DefualtWebsitePath= "C:\\DevSetupTool\\PowershellScripts\\SetDefualtWebsiteV2.ps1"
-alPath= "C:\\DevSetupTool\\PowershellScripts\\autologinV2.ps1"
-scoreboardpath="C:\\DevSetupTool\\PowershellScripts\\ScoreboardConfigV3.ps1"
-teguarPath="C:\\DevSetupTool\\PowershellScripts\\TegAIO.ps1"
-bypassWSUSPath="C:\\DevSetupTool\\PowershellScripts\\bypassWSUS.ps1"
-RemoveALpath="C:\\DevSetupTool\\PowershellScripts\\RemoveAutoLogin.ps1"
+pingpath="C:\\Users\\bfire\\OneDrive\\Desktop\\EmersonTool\\PingTest.ps1"
+vncpath="C:\\Users\\bfire\\OneDrive\\Desktop\\EmersonTool\\UVNCTestV2.ps1"
+aioMOPpath= "C:\\Users\\bfire\\OneDrive\\Desktop\\EmersonTool\\MOPAllinoneSetup.ps1"
+DefualtWebsitePath= "C:\\Users\\bfire\\OneDrive\\Desktop\\EmersonTool\\SetDefualtWebsiteV2.ps1"
+alPath= "C:\\Users\\bfire\\OneDrive\\Desktop\\EmersonTool\\autologinV2.ps1"
+scoreboardpath="C:\\Users\\bfire\\OneDrive\\Desktop\\EmersonTool\\ScoreboardConfigV3.ps1"
+teguarPath="C:\\Users\\bfire\\OneDrive\\Desktop\\EmersonTool\\TegAIO.ps1"
+bypassWSUSPath="C:\\Users\\bfire\\OneDrive\\Desktop\\EmersonTool\\bypassWSUS.ps1"
+RemoveALpath="C:\\Users\\bfire\\OneDrive\\Desktop\\EmersonTool\\RemoveAutoLogin.ps1"
 output= ' '
-path='C:\\ITPool2\\ITPool\\AccountsDB\\Accounts.db'
+path='C:\\Users\\bfire\\OneDrive\\Desktop\\EmersonTool\\exampleSQL.db'
 
 def RemoveALOpt(computername): #ping computer name Option
 
@@ -82,7 +82,7 @@ def WebsiteSetup(ComputerName,Url): #Add Heijunka as default page to computer Op
 
 def TeguarSetup(ComputerName, cUname, cPwd, url):
     try:
-        output = subprocess.run(["powershell.exe", TeguarPath, computername, cUname, url, cPwd],
+        output = subprocess.run(["powershell.exe", teguarPath, ComputerName, cUname, url, cPwd],
                                 stdout=subprocess.PIPE, stderr=STDOUT)
         output = output.stdout.decode('utf-8')
     except Exception as err:
@@ -99,7 +99,7 @@ def BypassWSUS(ComputerName):
 
 logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder=("."))#Pull the html files from current directory
 login_manager = LoginManager(app)
 login_manager.login_view = "login"
 app.config['SECRET_KEY'] ='abcd'
@@ -137,8 +137,8 @@ class User(UserMixin):
 
 @login_manager.user_loader
 def load_user(user_id):
-    path = (r'C:\ITPool2\Databases\AccountsDB')
-    conn = sqlite3.connect(path + "\Accounts.DB")
+    path = (r'C:\Users\bfire\OneDrive\Desktop\EmersonTool')
+    conn = sqlite3.connect(path + r"\exampleSQL.db")
     curs = conn.cursor()
     curs.execute("SELECT * from accounts where Account = ?",[user_id])
     lu = curs.fetchone()
@@ -266,8 +266,8 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
 
-    path = (r'C:\ITPool2\Databases\AccountsDB')
-    conn = sqlite3.connect(path + "\Accounts.db")
+    path = (r'C:\Users\bfire\OneDrive\Desktop\EmersonTool')
+    conn = sqlite3.connect(path + r"\exampleSQL.db")
     cursor = conn.cursor()
     msg = ''
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
