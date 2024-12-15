@@ -4,3 +4,4 @@ Next, change the paths in main.py on lines 12-22, 140, 141, 269, 270 to the appr
 Lastly, you just need to run main.py, and then go into your browser of choice (I use chrome) and go to http:\\\\127.0.0.1:5004 
 Type in "SampleAccount" as the username and "SamplePassword" as the password to gain access to the website.
 ![image](https://github.com/user-attachments/assets/2fd5c7b9-84da-44f4-8f16-6e6eec2b0959)
+Make sure you have scripting enabled, as the buttons essentially run powershell scripts in the background.
